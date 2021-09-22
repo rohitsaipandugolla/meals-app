@@ -1,10 +1,18 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
-import MainNavigator from "./src/navigation/MainNavigator";
+import { createStore, combineReducers } from "redux";
+import { Provider } from "react-redux";
+import React from "react";
 
+import MainNavigator from "./src/navigation/MainNavigator";
+import mealsReducer from "./src/store/reducers/meals";
+import { useState } from "react";
+
+const rootReducer = combineReducers({
+	meals: mealsReducer,
+});
+const store = createStore(rootReducer);
 const fetchFonts = () => {
 	return Font.loadAsync({
 		"open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
@@ -23,7 +31,11 @@ export default function App() {
 			/>
 		);
 	}
-	return <MainNavigator />;
+	return (
+		<Provider store={store}>
+			<MainNavigator />
+		</Provider>
+	);
 }
 
 const styles = StyleSheet.create({

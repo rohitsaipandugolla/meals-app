@@ -1,7 +1,8 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import React from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { MEALS } from "../../data/category-data";
+import { useSelector } from "react-redux";
+import { appState } from "../../store/reducers/meals";
 import HeaderButton from "../atoms/HeaderButton/HeaderButton";
 import MealList from "../organisms/MealList/MealList";
 
@@ -14,7 +15,9 @@ const FavouritesScreen: React.FC<FavouritesScreenProps> = ({
 	navigation,
 	route,
 }) => {
-	const favMeals = MEALS.filter(meal => meal.id === "m1" || meal.id === "m2");
+	const favMeals = useSelector<appState, appState["favouriteMeals"]>(
+		state => state.meals.favouriteMeals
+	);
 	return <MealList listData={favMeals} navigation={navigation} />;
 };
 
